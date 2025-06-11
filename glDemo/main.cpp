@@ -12,6 +12,8 @@ const unsigned int initHeight = 512;
 void renderScene();
 void resizeWindow(GLFWwindow* window, int width, int height);
 void DrawPolygon(int _x, int _y, int _sides, float _radius);
+void DrawStar(float _atX, float _atY, float _innerRadius, float _outerRadius, int _points);
+void DrawTank(float _atX, float _atY, float _orientation);
 void keyboardHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
 void updateScene();
 
@@ -86,6 +88,53 @@ int main() {
 }
 
 
+void DrawTank(float _atX, float _atY, float _orientation)
+{
+
+	glPushMatrix();
+	glTranslatef(_atX, _atY,0.0f);
+	glRotatef(_orientation, 0.0f, 0.0f, 1.0f);
+
+
+
+	glBegin(GL_LINE_LOOP);
+
+	glVertex2f(-75.0f, 40.0f);
+	glVertex2f(75.0f, 40.0f);
+	glVertex2f(75.0f, -40.0f);
+	glVertex2f(-75.0f, -40.0f);
+
+	glEnd();
+
+
+	glBegin(GL_LINE_LOOP);
+
+	glVertex2f(-50.0f, 30.0f);
+	glVertex2f(60.0f, 0.0f);
+	glVertex2f(-50.0f, -30.0f);
+
+	glEnd();
+	glPopMatrix();
+
+
+}
+
+void DrawStar(float _atX, float _atY, float _innerRadius, float _outerRadius, int _points)
+{
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < _points *2; ++i)
+	{
+		float angle = i * 3.1415926f / _points;
+		float radius = (i % 2 == 0) ? _outerRadius : _innerRadius;
+		float x = _atX + cosf(angle) * radius;
+		float y = _atY + sinf(angle) * radius;
+		glVertex2d(x, y);
+
+	}
+	glEnd();
+
+
+}
 void DrawPolygon(int _x, int _y, int _sides, float _radius)
 {
 	if (_sides < 3)return;
@@ -113,17 +162,12 @@ void renderScene()
 	// Clear the rendering window
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	DrawPolygon(500, 500, 100, 200);
+	//DrawPolygon(500, 500, 100, 200);
+	//DrawStar(500.0f, 500.0f, 350.0f, 200.0f, 5);
+	//DrawTank(500,500, 90.0f);
 
 	
-	//glBegin(GL_TRIANGLES);
-		//glVertex2f(1000, 0.0f);
-		//glVertex2f(0.0f, 500.0f);
-		//glVertex2f(0.0f, 0.0f);
-	//	glVertex2f(-1000.0f, -0.0f);
-	//	glVertex2f(1000.0f, -1000.0f);
-	//	glVertex2f(1000.0f, 0.0f);
-	//glEnd();
+	
 
 }
 
