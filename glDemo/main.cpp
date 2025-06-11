@@ -11,6 +11,7 @@ const unsigned int initHeight = 512;
 // Function prototypes
 void renderScene();
 void resizeWindow(GLFWwindow* window, int width, int height);
+void DrawPolygon(int _x, int _y, int _sides, float _radius);
 void keyboardHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
 void updateScene();
 
@@ -59,6 +60,9 @@ int main() {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // setup background colour to be black
 
 
+	gluOrtho2D(0, 1000, 0, 1000);
+
+
 	//
 	// 2. Main loop
 	// 
@@ -82,6 +86,26 @@ int main() {
 }
 
 
+void DrawPolygon(int _x, int _y, int _sides, float _radius)
+{
+	if (_sides < 3)return;
+
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < _sides; ++i)
+	{
+		float angle = 2.0f * 3.1415926f * i / _sides;
+		float x = _x + cosf(angle) * _radius;
+		float y = _y + sinf(angle) * _radius;
+		glVertex2d(x, y);
+
+	}
+	glEnd();
+
+
+
+
+}
+
 
 // renderScene - function to render the current scene
 void renderScene()
@@ -89,7 +113,18 @@ void renderScene()
 	// Clear the rendering window
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Render objects here...
+	DrawPolygon(500, 500, 100, 200);
+
+	
+	//glBegin(GL_TRIANGLES);
+		//glVertex2f(1000, 0.0f);
+		//glVertex2f(0.0f, 500.0f);
+		//glVertex2f(0.0f, 0.0f);
+	//	glVertex2f(-1000.0f, -0.0f);
+	//	glVertex2f(1000.0f, -1000.0f);
+	//	glVertex2f(1000.0f, 0.0f);
+	//glEnd();
+
 }
 
 
